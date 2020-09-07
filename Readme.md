@@ -8,8 +8,10 @@
 
 
 This library provides various Python modules and scripts to perform semi-supervised learning with heterophily (SSLH). 
-It includes methods to perform label propagation with linearized belief propagation and to estimate class-to-class compatibilities from very sparsely labeled graphs. 
-Also included is code and experimental traces to reproduce the experiments from our [SIGMOD 2020](http://sigmod2020.org/) paper:
+It includes methods to perform label propagation with linearized belief propagation 
+and to estimate class-to-class compatibilities from very sparsely labeled graphs,
+extending an earlier release of [SSLH](https://pypi.org/project/sslh/) and [prior ideas](https://arxiv.org/abs/1412.3100). 
+Also included are code and experimental traces to reproduce the experiments from our [SIGMOD 2020](http://sigmod2020.org/) paper:
 [Factorized Graph Representations for Semi-supervised Learning from Sparse Labels](https://doi.org/10.1145/3318464.3380577)
 
 **Overview of SSLH:** 
