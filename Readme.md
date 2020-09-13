@@ -76,8 +76,8 @@ If you use this code in your work, please cite:
 
 ## Contributors
 - [Wolfgang Gatterbauer](http://gatterbauer.name)
-- Krishna Kumar
+- [Krishna Kumar](https://github.com/pkrsn3)
 - [Paul Langton](https://github.com/paulangton)
 
 For any clarification, comments, or suggestions on the main methods in `sslh/` please create an issue or contact [Wolfgang](http://gatterbauer.name).
-For any questions on the scripts in `experiments_sigmod/` and reproducability of the experiments, please contact [Paul](https://github.com/paulangton).
+For any questions on the scripts in `experiments_sigmod/` and reproducability of the experiments, please contact [Paul](https://github.com/paulangton) and [Krishna](https://github.com/pkrsn3).
