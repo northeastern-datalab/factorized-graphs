@@ -46,7 +46,7 @@ Dependencies can be installed using `requirements.txt`.
 
 
 ## Real data sets
-A copy of the 8 real datasets we used in our experiments is available in the orm of 16 CSV files totaling 1.2GB on [Google Drive](https://drive.google.com/drive/folders/1fqTgfW8f-PUwnAj432YgsFVjgbUdOHuu?usp=sharing). 
+A copy of the 8 real datasets we used in our experiments is available in the form of 16 CSV files totaling 1.2GB on [Google Drive](https://drive.google.com/drive/folders/1fqTgfW8f-PUwnAj432YgsFVjgbUdOHuu?usp=sharing). 
 To run the experiments, place them into the folder `experiments_sigmod20/realData/`, then run the respective methods in `experiments_sigmod20/`.
 
 
