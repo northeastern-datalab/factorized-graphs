@@ -51,7 +51,9 @@ To run the experiments, place them into the folder `experiments_sigmod20/realDat
 
 
 ## Usage
-For examples on the usage of the various methods, please see the `test_sslh` directory in the source tree.
+1. For examples on the usage of the various methods, please see the `test_sslh` directory in the source tree.
+2. [/reproducibility.md](https://github.com/northeastern-datalab/factorized-graphs/blob/master/reproducibility.md) contains a detailed description to reproduce the experimental results reported in the paper (as submitted to the [ACM SIGMOD 2021 Reproducibility](https://reproducibility.sigmod.org/)).
+
 
 
 ## License
