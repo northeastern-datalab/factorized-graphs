@@ -50,15 +50,15 @@ Please download those real datasets and copy them into the following directory b
 
 ### Hardware Info   
 Experiments were primarily run on a 2016 MacBook Pro 13-inch with the below configuration ("Hardware 1"). 
-Some of the real-world large datasets were run on a cluster, detailed below ("Hardware 1").
+Some of the real-world large datasets were run on a cluster, detailed below ("Hardware 2").
 
-Hardware 1: used for all Timing Experiments (including Figures 3, 5, an 6 in the [paper](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577)) :  
+**Hardware 1**: used for all Timing Experiments (including Figures 3, 5, an 6 in the [paper](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577)) :  
 - *Processor*: 2.5 GHz Intel Core i5   
 - *Memory*: 16 GB  
 - *Secondary Storage*:   1 TB SSD       
 
 
-Hardware 2: used for Accuracy Estimation Experiments on real-world datasets (Fig.7)
+**Hardware 2**: used for Accuracy Estimation Experiments on real-world datasets (Fig.7)
 (For detailed specs, please refer [The Discovery Cluster](https://rc-docs.northeastern.edu/en/latest/welcome/welcome.html) 
 at [MGHPCC](https://www.mghpcc.org/)):   
 - *Processor*: 2.4 GHz Intel E5-2680 v4 CPUs   
