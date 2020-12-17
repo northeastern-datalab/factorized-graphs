@@ -1,12 +1,23 @@
-# ACM SIGMOD 2021 Reproducibility
+# Reproducibility of SIGMOD 2020 Experiments
 
-This page contains a detailed description to reproduce the experimental results reported in SIGMOD 2020 paper **Factorized Graph Representations for Semi-Supervised Learning from Sparse Data** as submitted to the [ACM SIGMOD 2021 Reproducibility](https://reproducibility.sigmod.org/). 
+This page contains a detailed description to reproduce the experimental results reported 
+in the SIGMOD 2020 paper #125 titled 
+[*Factorized Graph Representations for Semi-Supervised Learning from Sparse Data*](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577) 
+as submitted to the [ACM SIGMOD 2021 Reproducibility Track](https://reproducibility.sigmod.org/). 
 
-The published paper is available in the [ACM Digital Library](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577). The full version is available on [arXiV.2003.02829](https://arxiv.org/pdf/2003.02829.pdf). 
 
 
-**Programming Language:** Python3   
-**Dependency Packages**:
+### Research Paper
+The official paper is available in the 
+[ACM Digital Library (https://dl.acm.org/doi/10.1145/3318464.3380577)](https://dl.acm.org/doi/10.1145/3318464.3380577). 
+The full version is available on [arXiV.2003.02829](https://arxiv.org/abs/2003.02829). 
+For citing our work, we suggest using the [DBLP bib file](https://dblp.org/rec/conf/sigmod/PLG20.html?view=bibtex).
+
+
+
+### Programming Language and Dependencies
+All code is implemented in Python3 with following dependencies 
+(also listed in [`requirements.txt`](https://github.com/northeastern-datalab/factorized-graphs/blob/master/requirements.txt)):  
 ```
 jupyter>=1.0.0
 matplotlib>=1.4.2
@@ -20,70 +31,80 @@ scikit-learn>=0.18
 sklearn
 seaborn>=0.8.0
 ```
-Requirements referenced in Github [requirements.txt](https://github.com/northeastern-datalab/factorized-graphs/blob/master/requirements.txt)  
-To install dependencies, simply run:  `pip install -r requirements.txt`
+To install all dependencies, simply run:  `pip install -r requirements.txt`
 
 
 
-### B) Datasets info
-**Data generators**: Github repository has our [synthetic data generators](https://github.com/northeastern-datalab/factorized-graphs/blob/master/sslh/graphGenerator.py). It is not required to separately generate data, since the scripts to run our experiments auto-generate the requisite data.   
-**Real dataset Repository**: 8 real datasets we used in our experiments are available in the form of 16 CSV files totaling `1.2GB` on [Google Drive](https://drive.google.com/drive/folders/1fqTgfW8f-PUwnAj432YgsFVjgbUdOHuu). 
-Download the real datasets and copy it into the following directory:`factorized-graphs/experiments_sigmod20/realData/`
+### Datasets Used
+**Synthetic data generator**: 
+Our github repository includes our synthetic data generators 
+[`/sslh/graphGenerator.py`](https://github.com/northeastern-datalab/factorized-graphs/blob/master/sslh/graphGenerator.py). 
+It is not required to separately generate data, as the experimental scripts auto-generate the necessary  data.   
+
+**Real dataset Repository**: We used 8 real datasets in our experiments that are available in the form of 
+16 CSV files totaling `1.2GB` in a separate [Google Drive folder](https://drive.google.com/drive/folders/1fqTgfW8f-PUwnAj432YgsFVjgbUdOHuu). 
+Please download those real datasets and copy them into the following directory before running the experiments on real data: 
+`/experiments_sigmod20/realData/`
 
 
 
-### C) Hardware Info   
+### Hardware Info   
+Experiments were primarily run on a 2016 MacBook Pro 13-inch with the below configuration ("Hardware 1"). 
+Some of the real-world large datasets were run on a cluster, detailed below ("Hardware 1").
 
-Experiments were primarily run on a MacBook Pro with the below configuration. Some of the real-world large datasets were run on clusters, detailed below. 
-
-Hardware for all Timing Experiments (including Fig.3,  Fig.5, Fig.6 in the [paper](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577))   
-  C1) *Processor*: 2.5 GHz Intel Core i5   
-  C2) *Caches* (number of levels, and size of each level)   
-  C3) *Memory*: 16 GB  
-  C4) *Secondary Storage*:   1 TB SSD    
-  C5) *Network* (if applicable: type and bandwidth)   
+Hardware 1: used for all Timing Experiments (including Figures 3, 5, an 6 in the [paper](https://dl.acm.org/doi/pdf/10.1145/3318464.3380577)) :  
+- *Processor*: 2.5 GHz Intel Core i5   
+- *Memory*: 16 GB  
+- *Secondary Storage*:   1 TB SSD       
 
 
-Hardware for Accuracy Estimation Experiments on real-world datasets  (Fig.7)
-(For detailed specs, please refer [The Discovery Cluster](https://rc-docs.northeastern.edu/en/latest/welcome/welcome.html) at [MGHPCC](https://www.mghpcc.org/))   
-  C6) *Processor* (architecture, type) 2.4 GHz Intel E5-2680 v4 CPUs   
-  C7) *Caches* (number of levels, and size of each level)    
-  C8) *Memory* (size and speed): 256 GB/node   
-  C9) *Secondary Storage* (type: SSD/HDD/other, size, performance: random read/sequential read/random write/sequential write)   GPFS, disk type unavailable, assume SSD since it’s a world-class HPC facility.    
-  C10) *Network* (if applicable: type and bandwidth) InfiniBand (IB) interconnect running at 100 Gbps
+Hardware 2: used for Accuracy Estimation Experiments on real-world datasets (Fig.7)
+(For detailed specs, please refer [The Discovery Cluster](https://rc-docs.northeastern.edu/en/latest/welcome/welcome.html) 
+at [MGHPCC](https://www.mghpcc.org/)):   
+- *Processor*: 2.4 GHz Intel E5-2680 v4 CPUs   
+- *Memory*: 256 GB/node   
+- *Secondary Storage*:  GPFS, disk type unavailable, assume SSD since it’s a world-class HPC facility.    
+- *Network*: InfiniBand (IB) interconnect running at 100 Gbps
 
 
 
-### D) Experimentation Info
-All experiments can easily be run using two Jupyter notebooks and recreate all the figures in our paper.
-These two notebooks, one for synthetic data and the other for real datasets, are meant to serve as a quick-access portal into the rest of the code using figures in the paper as point of reference. 
+### Repeating the Experiments
+#### Jupyter notebooks 
+You can repeat the experiments and produce all figures from the paper by using two Jupyter notebooks,
+one for synthetic data and the other for real datasets: 
 
-* Link to [Jupyter notebook A](https://github.com/northeastern-datalab/factorized-graphs/blob/master/experiments_sigmod20/Figures_syntheticdata_sigmod20.ipynb) for theoretical verification and synthetic data experiments.
-* Link to [Jupyter notebook B](https://github.com/northeastern-datalab/factorized-graphs/blob/master/experiments_sigmod20/Figures_realdata_sigmod20.ipynb) for experiments on real-world datasets.
+* [`/experiments_sigmod20/Figures_syntheticdata_sigmod20.ipynb`](https://github.com/northeastern-datalab/factorized-graphs/blob/master/experiments_sigmod20/Figures_syntheticdata_sigmod20.ipynb): 
+ all experiments with synthetic data sets
+* [`/experiments_sigmod20/Figures_realdata_sigmod20.ipynb`](https://github.com/northeastern-datalab/factorized-graphs/blob/master/experiments_sigmod20/Figures_realdata_sigmod20.ipynb):
+ all experiments on real-world datasets
  
 Run the Jupyter notebook and jump to the necessary functions to learn how a certain figure was generated in the paper.
 
-**D1) Scripts and how-tos to generate all necessary data or locate datasets**   
+####Cached experimental traces
+
+
 The code allows two levels of granularity to reproduce all results:
-  1. Reproduce figures using data cache: We have cached all the intermediate results required to produce the figures in our paper in `factorized-graphs/experiments_sigmod20/datacache` subfolders. You can simply run the cells in Jupyter notebook to generate figures. Those are the defaults for the provided notebooks, and we recommend this mode during the first pass.
-  2. In order to run all the experiments from scratch, please use the option “create_data =  True” in  the provided Jupyter notebooks. On a 2018 Macbook pro, this would  take approximately ###$$$ hours for the synthetic, and ###$$$ hours for the real data experiments. We suggest to thus reproduce the graphs with less accuracy instead (fewer data samples and thus more wiggly) by using changing the parameters ###$$$ in the notebook
+  1. Plot figures from the paper **using our saved experimental traces**: We have cached all the intermediate results 
+  required to produce the figures in our paper in the 
+  [`/experiments_sigmod20/datacache`](https://github.com/northeastern-datalab/factorized-graphs/blob/master/experiments_sigmod20/datacache) subfolder. 
+  You can simply run the cells in Jupyter notebook to generate all figures. 
+  By default the code uses our stored results and we recommend this mode during the first pass.
+  2. In order to **run all the experiments from scratch**, please use the option `create_data =  True` in  the provided Jupyter notebooks. 
+  On a 2016 Macbook Pro, this would  take approximately ###$$$ hours for the synthetic, and ###$$$ hours for the real data experiments. 
+  We suggest to thus reproduce the graphs with less accuracy instead (fewer data samples and thus more wiggly) by using changing the parameters ###$$$ in the notebook
 
-#### Example: 
-* To generate Fig 5(a) using cached intermediate data, run   
+**Example Use**: 
+To generate Fig 5(a) using cached intermediate data, run   
   `Fig_Backtracking_Advantage.run(choice=31, variant=0, create_data=False, show_plot=True, create_pdf=True)`   
-* To ignore the cached data and recreate figures from scratch  
+To ignore the cached data and recreate figures from scratch  
   `Fig_Backtracking_Advantage.run(choice=31, variant=0, create_data=True, show_plot=True, create_pdf=True)`  
- 
-*Note:*  choice and variant parameters are to select between different configurations of graphs.   
 
+Please note that `choice` and `variant` parameter values are already set to the ones used for the paper.   
 
-**D2) Scripts and how-tos to prepare the software for system**   
-Since our code base is python based, it is very simple to prepare the system; just install the library dependencies using `pip install -r requirements.txt`
-
-
-**D3) Scripts and how-tos for all experiments executed for the paper**   
-Run the cells in Jupyter notebook. 
-Expected time to run a cell in notebook: ###$$$  
-
-*Please note:* Many of the accuracy experiments over real datasets (Figure.7) were run at [MGHPCC](https://www.mghpcc.org/) on high-performance compute infrastructure. Although the plots are reproducible instantaneously from cached data provided in the repository, if you wish to recreate the experimental data points from scratch (i.e. using the `create_data=True` flag), it is highly recommended to run the real data experiments with a large number of CPU cores and plenty of memory. 
-They are feasible to run on a home computer, but it will likely take multiple days to produce plots with comparable variance to those presented in the paper.
+**A note about timing**:
+Many of the accuracy experiments over real datasets (Figure.7) were run at [MGHPCC](https://www.mghpcc.org/) 
+on high-performance compute infrastructure. Although the plots are reproducible instantaneously from cached data provided in the repository, 
+if you wish to recreate the experimental data points from scratch (i.e. using the `create_data=True` flag), 
+it is highly recommended to run the real data experiments with a large number of CPU cores and plenty of memory. 
+They are feasible to run on a home computer, but it will likely take multiple days to produce plots with comparable variance 
+to those presented in the paper.
