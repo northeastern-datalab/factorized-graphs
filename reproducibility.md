@@ -80,7 +80,7 @@ one for synthetic data and the other for real datasets:
  
 Run the Jupyter notebook and jump to the necessary functions to learn how a certain figure was generated in the paper.
 
-####Cached experimental traces
+#### Cached experimental traces
 
 
 The code allows two levels of granularity to reproduce all results:
