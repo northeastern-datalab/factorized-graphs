@@ -90,8 +90,11 @@ The code allows two levels of granularity to reproduce all results:
   You can simply run the cells in Jupyter notebook to generate all figures. 
   By default the code uses our stored results and we recommend this mode during the first pass.
   2. In order to **run all the experiments from scratch**, please use the option `create_data =  True` in  the provided Jupyter notebooks. 
-  On a 2016 Macbook Pro, this would  take approximately ###$$$ hours for the synthetic, and ###$$$ hours for the real data experiments. 
-  We suggest to thus reproduce the graphs with less accuracy instead (fewer data samples and thus more wiggly) by using changing the parameters ###$$$ in the notebook
+  On a 2016 Macbook Pro, this would  take approximately 200 hours for the synthetic. We have provided another option in each cell, to run a mini-version 
+  of our experiments, with about one-tenth of the sample point. 
+  You can uncomment those mini-versions to run synthetic experiments much faster. 
+  
+  We suggest to thus reproduce the graphs with less accuracy instead (fewer data samples and thus more wiggly) by toggling between the comment/uncomment lines in the notebook.
 
 **Example Use**: 
 To generate Fig 5(a) using cached intermediate data, run   
@@ -102,9 +105,11 @@ To ignore the cached data and recreate figures from scratch
 Please note that `choice` and `variant` parameter values are already set to the ones used for the paper.   
 
 **A note about timing**:
-Many of the accuracy experiments over real datasets (Figure.7) were run at [MGHPCC](https://www.mghpcc.org/) 
+Many of the accuracy experiments over real datasets (Figure.7) were run at [MGHPCC](https://www.mghpcc.org/) using parallelized code 
 on high-performance compute infrastructure. Although the plots are reproducible instantaneously from cached data provided in the repository, 
 if you wish to recreate the experimental data points from scratch (i.e. using the `create_data=True` flag), 
 it is highly recommended to run the real data experiments with a large number of CPU cores and plenty of memory. 
-They are feasible to run on a home computer, but it will likely take multiple days to produce plots with comparable variance 
+We estimate it to take at least 30 days on a common hardware. To make it simpler, we can leave away the 
+most costly baseline method for the larger graphs and estimate to run in one day. 
+They are feasible to run on a home computer, but it will likely take several day's time to produce plots with comparable variance 
 to those presented in the paper.
