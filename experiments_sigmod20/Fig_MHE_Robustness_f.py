@@ -130,6 +130,12 @@ def run(choice, create_data=False, add_data=False, create_fig=True, show_plot=Fa
         h = 8
         d = 3
 
+    elif CHOICE == 9:       # selection, #=100
+        n = 10000
+        h = 8
+        d = 25
+        rep = 5
+
     else:
         raise Warning("Incorrect choice!")
 

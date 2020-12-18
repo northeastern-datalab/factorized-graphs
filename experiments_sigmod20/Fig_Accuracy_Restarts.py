@@ -35,7 +35,7 @@ data_directory = join(current_path, 'datacache')
 def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=False, show_pdf=False, shorten_length=False):
 
     verbose = False
-    repeat_diffGraph = 10
+    repeat_diffGraph = 1000
     SUBSET = True
     NOGT = False        ## Not draw Ground Truth Comparison
     CHOICE = choice
@@ -257,6 +257,30 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         labels = [r'$r=$' + str(a1) for a1 in number_of_restarts]
         xtick_lab = k_vec
         xtick_labels = [str(a1) for a1 in k_vec]
+
+    elif CHOICE == 108:
+
+        n = 10000
+        h = 8
+        d = 15
+        k_vec = [2, 3, 4, 5, 6, 7, 8]
+        # k_vec = [4, 5, 7, 10]
+        f = 0.09
+        distribution = 'uniform'
+
+        # Write in DESCENDING ORDER
+        number_of_restarts = [10, 5, 4, 3, 2, 99]
+        # number_of_restarts = [20, 10, 5, 4, 3, 2, 100]
+        ### 100:GT 99:GTr
+        ### 50:min{30,GTr} 1:uninformative
+
+        marker_vec = ['x', 'v', '^', 's', 'o',  's', None] * 10
+        markersize_vec = [10, 6, 6, 6, 6, 6, 6] * 10
+
+        labels = [r'$r=$' + str(a1) for a1 in number_of_restarts]
+        xtick_lab = k_vec
+        xtick_labels = [str(a1) for a1 in k_vec]
+        repeat_diffGraph = 10
 
     else:
         raise Warning("Incorrect choice!")

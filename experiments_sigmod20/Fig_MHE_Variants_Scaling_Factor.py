@@ -76,7 +76,7 @@ def run(option, create_data=False, add_data=False, show_plot=False, create_pdf=F
     initial_H0 = None
     exponent = -0.3
     length = 5
-    rep_differentGraphs = 1
+    rep_differentGraphs = 100
     rep = 10       #
     EC = [False] + [True] * 35
     # scaling_vec = [1, 0.1, 0.14, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.4, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 20, 30, 40, 50, 60, 70, 80, 90, 100]
@@ -310,6 +310,22 @@ def run(option, create_data=False, add_data=False, show_plot=False, create_pdf=F
         delta_vec = [0.1]
         constraints_vec = [False]*3
         stratified = True
+
+    elif OPTION == 18:      
+        f = 0.001
+        h = 8
+        ymax2 = 2
+        ymin2 = 4e-2
+        CHOICE_vec = [133]
+        initial_H0_vec = [None] * 1
+        randomize_vec = [True]*1
+        delta_vec = [0.1]
+        constraints_vec = [False]*3
+        stratified = True
+        rep_differentGraphs = 2
+        n = 1000
+        d = 10
+        h = 8
 
     else:
         raise Warning("Incorrect choice!")

@@ -283,13 +283,19 @@ def run(choice, variant, create_data=False, show_plot=False, create_pdf=False, s
         d = 10
         f = 0.1
         distribution = 'uniform'
-        rep = 1000
         length = 8
         ymin = 0.333
         ymax = 0.65
         SHOW_DISTRIBUTION_IN_TITLE = False
         plot_colors = ['red', 'blue', 'darkorange']
         LEGEND_MATCH_COLORS = True
+
+        if VARIANT == 0:
+            rep = 1000
+
+        if VARIANT == 1:
+            rep = 20
+
 
     else:
         raise Warning("Incorrect choice!")

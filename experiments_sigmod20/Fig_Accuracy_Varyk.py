@@ -57,7 +57,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
 
     # -- Default Graph parameters
-    rep_SameGraph = 20       # iterations on same graph
+    rep_SameGraph = 10       # iterations on same graph
     initial_h0 = None           # initial vector to start finding optimal H
     distribution = 'powerlaw'
     exponent = -0.3
@@ -72,7 +72,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     ytick_lab = np.arange(0, 1.1, 0.1)
     f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
     k_vec = [3, 4, 5 ]
-    rep_DifferentGraphs = 1   # iterations on different graphs
+    rep_DifferentGraphs = 10   # iterations on different graphs
     err = 0
     avoidNeighbors = False
     gradient = False
@@ -326,6 +326,39 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
         gradient = True
         pruneRandom = True
+
+
+    elif CHOICE == 508:  ## 10k nodes   with gradient and PruneRandom
+        n = 1000
+        h = 3
+        d = 10
+        option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6']
+        learning_method_vec = ['GS', 'LHE', 'MHE', 'DHE', 'DHE', 'Holdout']
+        weight_vec = [10] * 10
+        alpha_vec = [0] * 10
+        beta_vec = [0] * 10
+        gamma_vec = [0] * 10
+        s_vec = [0.5] * 10
+        numMaxIt_vec = [10] * 10
+        randomize_vec = [False] * 4 + [True] + [False]
+        xmin = 2
+        ymin = 0.1
+        ymax = 0.9
+        label_vec = ['GS', 'LCE', 'MCE', 'DCE', 'DCEr', 'Holdout']
+        facecolor_vec = ['black'] + ["#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974"] * 3
+        f_vec = [0.01]
+        k_vec = [2, 3, 4, 5, 6, 7, 8]
+        # k_vec = [6, 7, 8]
+        clip_on_vec = [True] * 10
+
+        # option_vec = ['opt1', 'opt2', 'opt3', 'opt4']
+        # learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE']
+        # k_vec = [2, 3, 4, 5]
+
+        gradient = True
+        pruneRandom = True
+        rep_DifferentGraphs = 1
+        rep_SameGraph = 1
 
 
 

@@ -59,8 +59,8 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
     # -- Default Graph parameters
     k = 3
-    rep_DifferentGraphs = 1
-    rep_SameGraph = 2
+    rep_DifferentGraphs = 10
+    rep_SameGraph = 1000
     initial_h0 = None
     distribution = 'powerlaw'
     exponent = -0.3
@@ -109,6 +109,24 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         ymin = 0.3
         ymax = 1
         labels = ['GS', 'DCEr', 'Homophily']
+
+    elif CHOICE == 102:
+        n = 10000
+        h = 3
+        d = 15
+        f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
+        option_vec = ['opt1', 'opt2', 'opt3']
+        learning_method_vec = ['GT','DHE','Homophily']
+        weight_vec = [None] + [10] + [None]
+        randomize_vec = [None] + [True] + [None]
+        xmin = 0.001
+        ymin = 0.3
+        ymax = 1
+        labels = ['GS', 'DCEr', 'Homophily']
+        rep_DifferentGraphs = 1
+        rep_SameGraph = 2
+
+
 
     else:
         raise Warning("Incorrect choice!")

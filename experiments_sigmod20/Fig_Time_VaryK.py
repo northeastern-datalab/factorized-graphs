@@ -72,13 +72,13 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     ymax = 1
     xmin = 2
     xmax = 7.5
-    xtick_lab = [2,3,4,5,6,7,8, 9]
+    xtick_lab = [2,3,4,5,6,7,8]
     xtick_labels = ['2', '3', '4', '5', '6', '7', '8']
     ytick_lab = [1e-3, 1e-2, 1e-1, 1, 10 ,50]
     ytick_labels = [r'$10^{-3}$', r'$10^{-2}$', r'$10^{-1}$', r'$1$', r'$10$', r'$50$']
     f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
     k_vec = [3, 4, 5 ]
-    rep_DifferentGraphs = 1   # iterations on different graphs
+    rep_DifferentGraphs = 1000   # iterations on different graphs
     err = 0
     avoidNeighbors = False
     gradient = False
@@ -325,6 +325,37 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         randomize_vec = [False] * 3 + [True] + [False]
 
         xmin = 1.8
+        xmax = 7.
+        ymin = 0.01
+        ymax = 800
+        label_vec = ['LCE', 'MCE', 'DCE', 'DCEr', 'Holdout']
+        facecolor_vec = ["#55A868", "#4C72B0", "#8172B2", "#C44E52","#CCB974"] * 4
+        legend_location = 'upper left'
+        marker_vec = [None, 's', 'x', 'o', '^', '+'] * 3
+        markersize_vec = [8, 7, 10, 8, 7, 6] + [10] * 10
+        f_vec = [0.01]
+        k_vec = [2, 3, 4, 5, 6, 7, 8]
+        clip_on_vec = [True] * 10
+        gradient = True
+        pruneRandom = True
+        ytick_lab = [1e-3, 1e-2, 1e-1, 1, 10, 100, 500]
+        ytick_labels = [r'$10^{-3}$', r'$10^{-2}$', r'$10^{-1}$', r'$1$', r'$10$', r'$100$', r'$500$']
+
+    elif CHOICE == 608:  ## 10k nodes   with gradient and PruneRandom
+        n = 10000
+        h = 3
+        d = 25
+        option_vec = ['opt2', 'opt3', 'opt4', 'opt5', 'opt6']
+        learning_method_vec = ['LHE', 'MHE', 'DHE', 'DHE', 'Holdout']
+        weight_vec = [10] * 10
+        alpha_vec = [0] * 10
+        beta_vec = [0] * 10
+        gamma_vec = [0] * 10
+        s_vec = [0.5] * 10
+        numMaxIt_vec = [10] * 10
+        randomize_vec = [False] * 3 + [True] + [False]
+
+        xmin = 1.8
         xmax = 7.2
         ymin = 0.01
         ymax = 800
@@ -340,6 +371,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         pruneRandom = True
         ytick_lab = [1e-3, 1e-2, 1e-1, 1, 10, 100, 500]
         ytick_labels = [r'$10^{-3}$', r'$10^{-2}$', r'$10^{-1}$', r'$1$', r'$10$', r'$100$', r'$500$']
+        rep_DifferentGraphs = 10
 
 
     else:
@@ -402,7 +434,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
                             else:
                                 prev_time = time.time()
                                 if gradient and pruneRandom:
-                                    H2 = estimateH(X2, W, method=learning_method, variant=1, distance=length, EC=EC, weights=weights, randomize=randomize, gradient=gradient, pruneRandom=pruneRandom)
+                                    H2 = estimateH(X2, W, method=learning_method, variant=1, distance=length, EC=EC, weights=weights, randomize=randomize, gradient=gradient)
                                 else:
                                     H2 = estimateH(X2, W, method=learning_method, variant=1, distance=length, EC=EC, weights=weights, randomize=randomize)
                                 timeTaken = time.time() - prev_time

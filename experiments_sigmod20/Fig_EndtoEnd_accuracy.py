@@ -118,7 +118,8 @@ def run(choice, variant, create_data=False, add_data=False, show_plot=False, cre
 
 
     # -- Default Graph parameters
-    rep_SameGraph = 5           # iterations on same graph
+    rep_DifferentGraphs = 10   # iterations on different graphs
+    rep_SameGraph = 10           # iterations on same graph
     initial_h0 = None           # initial vector to start finding optimal H
     distribution = 'powerlaw'
     exponent = -0.3
@@ -135,7 +136,6 @@ def run(choice, variant, create_data=False, add_data=False, show_plot=False, cre
     f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
     k = 3
     a = 1                   # this value was erroneously set to 5 previously!!! TODO: fix everywhere else
-    rep_DifferentGraphs = 1   # iterations on different graphs
     err = 0
     avoidNeighbors = False
     convergencePercentage_W = None
@@ -682,6 +682,31 @@ def run(choice, variant, create_data=False, add_data=False, show_plot=False, cre
             linewidth_vec = [3, 4, 4]
             linestyle_vec = ['solid'] * 10
 
+            rep_DifferentGraphs = 10   # iterations on different graphs
+            rep_SameGraph = 1000           # iterations on same graph
+
+        if VARIANT == 4:
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'opt6']   # ['GT', 'LHE', 'MHE', 'DCE', 'DCEr', 'Holdout'] # TODO: this was unfortunately programmed by me, Fig_Timing is done better
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE', 'Holdout']
+            weight_vec = [None] * 3 + [10, 100] + [None]
+            alpha_vec = [0] * 10
+            beta_vec = [0] * 10
+            gamma_vec = [0] * 10
+            s_vec = [0.5] * 10
+            numMaxIt_vec = [10] * 10
+            randomize_vec = [False] * 4 + [True] + [None]
+
+            labels = ['GS', 'LCE', 'MCE', 'DCE', 'DCE r', 'Holdout']
+            # clip_on_vec = [False, True, True, True, False]
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            # draw_std_vec = [4, 5]
+            draw_std_vec = [0, 3, 4]
+
+            rep_DifferentGraphs = 2   # iterations on different graphs
+            rep_SameGraph = 2           # iterations on same graph
+
+            
+
 
 
     elif CHOICE == 204: # 100k graph
@@ -784,6 +809,10 @@ def run(choice, variant, create_data=False, add_data=False, show_plot=False, cre
         alpha0 = np.array([1., 2., 3.])
         numberOfSplits = 2
 
+        if VARIANT == 1:
+            rep_DifferentGraphs = 2   # iterations on different graphs
+            rep_SameGraph = 2           # iterations on same graph
+            
 
 
 

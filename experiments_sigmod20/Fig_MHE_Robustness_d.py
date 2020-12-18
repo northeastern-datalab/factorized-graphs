@@ -146,6 +146,14 @@ def run(choice, create_data=False, add_data=False, create_fig=True, show_plot=Fa
         ymax1 = 0.401
         ymin1 = 0.003
 
+    elif CHOICE == 8:       # selection #=124
+        n = 10000
+        h = 8
+        f = 0.1
+        distribution = 'powerlaw'
+        ymin1 = 0.003
+        rep = 1
+
     else:
         raise Warning("Incorrect choice!")
 
