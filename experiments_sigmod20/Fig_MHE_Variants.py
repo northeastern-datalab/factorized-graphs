@@ -50,7 +50,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     CREATE_PDF = create_pdf
     SHOW_PDF=show_pdf
     SHOW_FIG1 = show_fig        # bar diagram
-    SHOW_FIG2 = show_fig      # curve
+    SHOW_FIG2 = False      # curve
 
     csv_filename = 'Fig_MHE_Variants_{}.csv'.format(CHOICE)
     header = ['currenttime',
@@ -86,7 +86,8 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     xmax2 = None
     ymin2 = None
     ymax2 = None
-    fig1_index = [0, 11, 16, 21, 23, 24, 25, 26]         # which index of scaling options to display if CHOICE_FIG_BAR_VARIANT==True
+    # fig1_index = [0, 11, 16, 21, 23, 24, 25, 26]         # which index of scaling options to display if CHOICE_FIG_BAR_VARIANT==True
+    fig1_index = [21]
     smartInit = False
     smartInitRandomize = False
     delta = 0.1
