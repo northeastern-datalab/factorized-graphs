@@ -714,14 +714,8 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
             num_results = len(f_vec) * len(learning_method_vec) * rep_SameGraph    
             
-            # Starts a thread pool with 10 fewer than the max number your computer
-            # has available assuming one thread per cpu - this is meant for
-            # supercomputer.
-            #pool = multiprocessing.Pool(int(multiprocessing.cpu_count()-10))
-            # Use this for a reasonably powerful home computer
-            #pool = multiprocessing.Pool(int(multiprocessing.cpu_count()/2))
-            # Use this for anything else
-            pool = multiprocessing.Pool(2)
+            # Starts a thread pool with at least 2 threads, and a lot more if you happen to be on a supercomputer
+            pool = multiprocessing.Pool(max(2, multiprocessing.cpu_count()-4))
 
             f_processes = f_vec * rep_SameGraph
             workers = []
