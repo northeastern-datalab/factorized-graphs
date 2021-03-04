@@ -47,6 +47,63 @@ realDataDir = join(current_path, 'realData')
 
 
 def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=False, show_pdf=False):
+    global n
+    global d
+    global rep_SameGraph
+    global FILENAMEZ
+    global csv_filename
+    global initial_h0
+    global exponent
+    global length
+    global variant
+
+    global alpha_vec
+    global beta_vec
+    global gamma_vec
+    global s_vec
+    global clip_on_vec
+    global numMaxIt_vec
+
+    # Plotting Parameters
+    global xtick_lab
+    global xtick_labels
+    global ytick_lab
+    global xmax
+    global xmin
+    global ymin
+    global ymax
+    global labels
+    global facecolor_vec
+    global draw_std_vec
+    global linestyle_vec
+    global linewidth_vec
+    global marker_vec
+    global markersize_vec
+    global legend_location
+
+    global option_vec
+    global learning_method_vec
+
+    global Macro_Accuracy
+    global EC
+    global constraints
+    global weight_vec
+    global randomize_vec
+    global k
+    global err
+    global avoidNeighbors
+    global convergencePercentage_W
+    global stratified
+    global gradient
+    global doubly_stochastic
+    global num_restarts
+    global numberOfSplits
+    global H_heuristic
+
+    global select_lambda_vec
+    global lambda_vec
+    global f_vec
+    global H0c
     # -- Setup
     CHOICE = choice
     #300 Prop37, 400 MovieLens, 500 Yelp, 600 Flickr, 700 DBLP, 800 Enron
@@ -125,62 +182,63 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
 
     def choose(choice):
-        # -- Default Graph parameters
-        nonlocal n
-        nonlocal d
-        nonlocal rep_SameGraph
-        nonlocal FILENAMEZ
-        nonlocal initial_h0
-        nonlocal exponent
-        nonlocal length
-        nonlocal variant
+        global n
+        global d
+        global rep_SameGraph
+        global FILENAMEZ
+        global initial_h0
+        global exponent
+        global length
+        global variant
 
-        nonlocal alpha_vec
-        nonlocal beta_vec
-        nonlocal gamma_vec
-        nonlocal s_vec
-        nonlocal clip_on_vec
-        nonlocal numMaxIt_vec
+        global alpha_vec
+        global beta_vec
+        global gamma_vec
+        global s_vec
+        global clip_on_vec
+        global numMaxIt_vec
 
         # Plotting Parameters
-        nonlocal xtick_lab
-        nonlocal xtick_labels
-        nonlocal ytick_lab
-        nonlocal xmax
-        nonlocal xmin
-        nonlocal ymin
-        nonlocal ymax
-        nonlocal labels
-        nonlocal facecolor_vec
-        nonlocal draw_std_vec
-        nonlocal linestyle_vec
-        nonlocal linewidth_vec
-        nonlocal marker_vec
-        nonlocal markersize_vec
-        nonlocal legend_location
+        global xtick_lab
+        global xtick_labels
+        global ytick_lab
+        global xmax
+        global xmin
+        global ymin
+        global ymax
+        global labels
+        global facecolor_vec
+        global draw_std_vec
+        global linestyle_vec
+        global linewidth_vec
+        global marker_vec
+        global markersize_vec
+        global legend_location
 
-        nonlocal option_vec
-        nonlocal learning_method_vec
+        global option_vec
+        global learning_method_vec
 
-        nonlocal Macro_Accuracy
-        nonlocal EC
-        nonlocal constraints
-        nonlocal weight_vec
-        nonlocal randomize_vec
-        nonlocal k
-        nonlocal err
-        nonlocal avoidNeighbors
-        nonlocal convergencePercentage_W
-        nonlocal stratified
-        nonlocal gradient
-        nonlocal doubly_stochastic
-        nonlocal num_restarts
-        nonlocal numberOfSplits
-        nonlocal H_heuristic
+        global Macro_Accuracy
+        global EC
+        global constraints
+        global weight_vec
+        global randomize_vec
+        global k
+        global err
+        global avoidNeighbors
+        global convergencePercentage_W
+        global stratified
+        global gradient
+        global doubly_stochastic
+        global num_restarts
+        global numberOfSplits
+        global H_heuristic
 
-        nonlocal select_lambda_vec
-        nonlocal lambda_vec
-        nonlocal f_vec
+        global select_lambda_vec
+        global lambda_vec
+        global f_vec
+
+        # -- Default Graph parameters
 
 
 
@@ -490,125 +548,6 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
             raise Warning("Incorrect choice!")
 
 
-    def _f_worker_(X0, W, f, f_index):
-        RANDOMSEED = None  # For repeatability
-        random.seed(RANDOMSEED)  # seeds some other python random generator
-        np.random.seed(seed=RANDOMSEED)  # seeds the actually used numpy random generator; both are used and thus needed
-
-        X1, ind = replace_fraction_of_rows(X0, 1-f, avoidNeighbors=avoidNeighbors, W=W, stratified=stratified)
-        X2 = introduce_errors(X1, ind, err)
-
-
-        for option_index, (label, select_lambda, learning_method, alpha, beta, gamma, s, numMaxIt, weights, randomize) in \
-                enumerate(zip(labels, select_lambda_vec, learning_method_vec, alpha_vec, beta_vec, gamma_vec, s_vec, numMaxIt_vec, weight_vec, randomize_vec)):
-            learn_time = -1
-            # -- Learning
-            if learning_method == 'GT':
-                H2c = H0c
-            elif learning_method == 'Heuristic':
-                # print('Heuristic')
-                H2c = H_heuristic
-
-            elif learning_method == 'Holdout':
-                # print('Holdout')
-                H2 = estimateH_baseline_serial(X2, ind, W, numMax=numMaxIt,
-                                               # ignore_rows=ind,
-                                               numberOfSplits=numberOfSplits,
-                                               # method=learning_method, variant=1, 
-                                               # distance=length,
-                                               EC=EC, alpha=alpha, beta=beta, gamma=gamma,
-                                               doubly_stochastic=doubly_stochastic)
-                H2c = to_centering_beliefs(H2)
-
-            else:
-                if "DCEr" in learning_method:
-                    learning_method = "DCEr"
-                elif "DCE" in learning_method:
-                    learning_method = "DCE"
-
-                # -- choose optimal lambda: allows to specify different lambda for different f
-                # print("option: ", option_index)
-                if select_lambda == True:
-                    weight = lambda_vec[f_index]
-                    # print("weight : ", weight)
-                else:
-                    weight = weights
-
-                # -- learn H
-                learn_start = time.time()
-                H2 = estimateH(X2, W, method=learning_method, variant=1, distance=length, EC=EC,
-                               weights=weight, randomrestarts=num_restarts,
-                               randomize=randomize, constraints=constraints,
-                               gradient=gradient,
-                               doubly_stochastic=doubly_stochastic)
-                learn_time = time.time()-learn_start
-                H2c = to_centering_beliefs(H2)
-
-
-            # if learning_method not in ['GT', 'GS']:
-
-                # print(FILENAMEZ, f, learning_method)
-                # print(H2c)
-                
-            # -- Propagation
-            prop_start = time.time()
-            # X2c = to_centering_beliefs(X2, ignoreZeroRows=True)       # try without
-            eps_max = eps_convergence_linbp_parameterized(H2c, W,
-                                                          method='noecho',
-                                                          alpha=alpha, beta=beta, gamma=gamma,
-                                                          X=X2)
-            eps = s * eps_max
-            # print("Max eps: {}, eps: {}".format(eps_max, eps))
-            # eps = 1
-            
-            try:
-                F, actualIt, actualPercentageConverged = \
-                    linBP_symmetric_parameterized(X2, W, H2c * eps,
-                                                  method='noecho',
-                                                  alpha=alpha, beta=beta, gamma=gamma,
-                                                  numMaxIt=numMaxIt,
-                                                  convergencePercentage=convergencePercentage_W,
-                                                  debug=2)
-                prop_time = time.time()-prop_start
-                if Macro_Accuracy:
-                    accuracy_X = matrix_difference_classwise(X0, F, ignore_rows=ind)
-                    precision = matrix_difference_classwise(X0, F, similarity='precision', ignore_rows=ind)
-                    recall = matrix_difference_classwise(X0, F, similarity='recall',ignore_rows=ind)
-                else:
-                    accuracy_X = matrix_difference(X0, F, ignore_rows=ind)
-                    precision = matrix_difference(X0, F, similarity='precision', ignore_rows=ind)
-                    recall = matrix_difference(X0, F, similarity='recall',ignore_rows=ind)
-
-
-                result = [str(datetime.datetime.now())]
-                text = [label,
-                        f,
-                        accuracy_X,
-                        precision,
-                        recall, 
-                        learn_time,
-                        prop_time]
-                result.extend(text)
-                # print("method: {}, f: {}, actualIt: {}, accuracy: {}, precision:{}, recall: {}, learning time: {}, propagation time: {}".format(label, f, actualIt, accuracy_X, precision, recall, learn_time, prop_time))
-                save_csv_record(join(data_directory, csv_filename), result)
-
-            except ValueError as e:
-                 
-                print("ERROR: {} with {}: d={}, h={}".format(e, learning_method, d, h))
-                raise e
-
-        return 'success'
-
-    def multi_run_wrapper(args):
-        """Wrapper to unpack arguments passed to the pool worker. 
-        
-        NOTE: This method could be removed by upgrading to Python>=3.3, which
-        includes the multiprocessing.starmap_async() function, which allows
-        multiple arguments to be passed to the map function.  
-        """
-
-        return _f_worker_(*args)
-
     for choice in experiments:
 
         choose(choice)
@@ -760,5 +699,124 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
             line_widths=linewidth_vec, legend_location=legend_location,
             show=SHOW_PDF, save=CREATE_PDF, show_plot=SHOW_PLOT)
 
+def _f_worker_(X0, W, f, f_index):
+    RANDOMSEED = None  # For repeatability
+    random.seed(RANDOMSEED)  # seeds some other python random generator
+    np.random.seed(seed=RANDOMSEED)  # seeds the actually used numpy random generator; both are used and thus needed
+
+    X1, ind = replace_fraction_of_rows(X0, 1-f, avoidNeighbors=avoidNeighbors, W=W, stratified=stratified)
+    X2 = introduce_errors(X1, ind, err)
+
+
+    for option_index, (label, select_lambda, learning_method, alpha, beta, gamma, s, numMaxIt, weights, randomize) in \
+            enumerate(zip(labels, select_lambda_vec, learning_method_vec, alpha_vec, beta_vec, gamma_vec, s_vec, numMaxIt_vec, weight_vec, randomize_vec)):
+        learn_time = -1
+        # -- Learning
+        if learning_method == 'GT':
+            H2c = H0c
+        elif learning_method == 'Heuristic':
+            # print('Heuristic')
+            H2c = H_heuristic
+
+        elif learning_method == 'Holdout':
+            # print('Holdout')
+            H2 = estimateH_baseline_serial(X2, ind, W, numMax=numMaxIt,
+                                           # ignore_rows=ind,
+                                           numberOfSplits=numberOfSplits,
+                                           # method=learning_method, variant=1, 
+                                           # distance=length,
+                                           EC=EC, alpha=alpha, beta=beta, gamma=gamma,
+                                           doubly_stochastic=doubly_stochastic)
+            H2c = to_centering_beliefs(H2)
+
+        else:
+            if "DCEr" in learning_method:
+                learning_method = "DCEr"
+            elif "DCE" in learning_method:
+                learning_method = "DCE"
+
+            # -- choose optimal lambda: allows to specify different lambda for different f
+            # print("option: ", option_index)
+            if select_lambda == True:
+                weight = lambda_vec[f_index]
+                # print("weight : ", weight)
+            else:
+                weight = weights
+
+            # -- learn H
+            learn_start = time.time()
+            H2 = estimateH(X2, W, method=learning_method, variant=1, distance=length, EC=EC,
+                           weights=weight, randomrestarts=num_restarts,
+                           randomize=randomize, constraints=constraints,
+                           gradient=gradient,
+                           doubly_stochastic=doubly_stochastic)
+            learn_time = time.time()-learn_start
+            H2c = to_centering_beliefs(H2)
+
+
+        # if learning_method not in ['GT', 'GS']:
+
+            # print(FILENAMEZ, f, learning_method)
+            # print(H2c)
+            
+        # -- Propagation
+        prop_start = time.time()
+        # X2c = to_centering_beliefs(X2, ignoreZeroRows=True)       # try without
+        eps_max = eps_convergence_linbp_parameterized(H2c, W,
+                                                      method='noecho',
+                                                      alpha=alpha, beta=beta, gamma=gamma,
+                                                      X=X2)
+        eps = s * eps_max
+        # print("Max eps: {}, eps: {}".format(eps_max, eps))
+        # eps = 1
+        
+        try:
+            F, actualIt, actualPercentageConverged = \
+                linBP_symmetric_parameterized(X2, W, H2c * eps,
+                                              method='noecho',
+                                              alpha=alpha, beta=beta, gamma=gamma,
+                                              numMaxIt=numMaxIt,
+                                              convergencePercentage=convergencePercentage_W,
+                                              debug=2)
+            prop_time = time.time()-prop_start
+            if Macro_Accuracy:
+                accuracy_X = matrix_difference_classwise(X0, F, ignore_rows=ind)
+                precision = matrix_difference_classwise(X0, F, similarity='precision', ignore_rows=ind)
+                recall = matrix_difference_classwise(X0, F, similarity='recall',ignore_rows=ind)
+            else:
+                accuracy_X = matrix_difference(X0, F, ignore_rows=ind)
+                precision = matrix_difference(X0, F, similarity='precision', ignore_rows=ind)
+                recall = matrix_difference(X0, F, similarity='recall',ignore_rows=ind)
+
+
+            result = [str(datetime.datetime.now())]
+            text = [label,
+                    f,
+                    accuracy_X,
+                    precision,
+                    recall, 
+                    learn_time,
+                    prop_time]
+            result.extend(text)
+            # print("method: {}, f: {}, actualIt: {}, accuracy: {}, precision:{}, recall: {}, learning time: {}, propagation time: {}".format(label, f, actualIt, accuracy_X, precision, recall, learn_time, prop_time))
+            save_csv_record(join(data_directory, csv_filename), result)
+
+        except ValueError as e:
+             
+            print("ERROR: {} with {}: d={}, h={}".format(e, learning_method, d, h))
+            raise e
+
+    return 'success'
+
+def multi_run_wrapper(args):
+    """Wrapper to unpack arguments passed to the pool worker. 
+
+    NOTE: This method could be removed by upgrading to Python>=3.3, which
+    includes the multiprocessing.starmap_async() function, which allows
+    multiple arguments to be passed to the map function.  
+    """
+
+    return _f_worker_(*args)
+
 if __name__ == "__main__":
-    run(409, show_plot=True)
+    run(602, show_plot=True)
