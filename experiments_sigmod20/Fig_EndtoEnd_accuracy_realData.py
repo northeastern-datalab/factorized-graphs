@@ -177,7 +177,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     legend_location = ""
     fig_label = ""
     global exp_backoff
-    exp_backoff = [2**n for n in range(2,7)]
+    exp_backoff = [2**n for n in range(2,9)]
 
 
     def choose(choice):
@@ -499,6 +499,8 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     header = ['currenttime',
               'method',
               'f',
+              'precision',
+              'recall',
               'accuracy']
     if CREATE_DATA:
         save_csv_record(join(data_directory, csv_filename), header, append=False)
@@ -539,7 +541,6 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         H6 = estimateH(X0, W, method='DHE', variant=1, distance=2, EC=EC, weights=10, randomize=False, gradient=gradient, doubly_stochastic=doubly_stochastic)
         H7 = estimateH(X0, W, method='DHE', variant=1, distance=2, EC=EC, weights=10, randomize=False, constraints=True, gradient=gradient, doubly_stochastic=doubly_stochastic)
 
-        print()
         # print("H MCE w/o constraints:\n", np.round(H0, 3))
         print("H MCE w/  constraints:\n", np.round(H2, 3))
         # print("H DCE 2 w/o constraints:\n", np.round(H4, 3))
@@ -547,7 +548,6 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         # print("H DCE 10 w/o constraints:\n", np.round(H6, 3))
         print("H DCE 20 w/  constraints:\n", np.round(H7, 3))
 
-        print()
         H_row_vec = H_observed(W, X0, 3, NB=True, variant=1)
         print("H_est_1:\n", np.round(H_row_vec[0], 3))
         print("H_est_2:\n", np.round(H_row_vec[1], 3))
@@ -583,16 +583,15 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         for gw in graph_workers:
             gw.start()
 
-        print("Started")
         for gw in graph_workers:
             for t in exp_backoff:
-                if gw.join(t) is None:
-                    print("joining {}, remaining: {}".format(gw, graph_workers))
-                    continue
+                gw.join(t)
+                if gw.exitcode is None:
+                    print("failed to join graph worker {} after {} seconds, retrying".format(gw, t))
                 else:
-                    print("failed to join {} after {} seconds".format(gw, t))
+                    continue
+            print("Failed to join graph worker {}.".format(gw))
 
-        print("STOP")
         gq.put('STOP')
         for i in iter(gq.get, 'STOP'):
             save_csv_record(join(data_directory, csv_filename), i)
@@ -609,7 +608,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     # print("\n-- df1: (length {}):\n{}".format(len(df1.index), df1.head(5)))
 
     # Aggregate repetitions
-    df2 = df1.groupby(['option', 'f']).agg \
+    df2 = df1.groupby(['method', 'f']).agg \
         ({'accuracy': [np.mean, np.std, np.size],  # Multiple Aggregates
           })
     df2.columns = ['_'.join(col).strip() for col in df2.columns.values]  # flatten the column hierarchy
@@ -618,7 +617,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     # print("\n-- df2 (length {}):\n{}".format(len(df2.index), df2.head(500)))
 
     # Pivot table
-    df3 = pd.pivot_table(df2, index=['f'], columns=['option'], values=['accuracy_mean', 'accuracy_std'] )  # Pivot
+    df3 = pd.pivot_table(df2, index='f', columns='method', values=['accuracy_mean', 'accuracy_std'] )  # Pivot
     # print("\n-- df3 (length {}):\n{}".format(len(df3.index), df3.head(30)))
     df3.columns = ['_'.join(col).strip() for col in df3.columns.values]  # flatten the column hierarchy
     df3.reset_index(inplace=True)  # remove the index hierarchy
@@ -629,16 +628,16 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     X_f = df3['f'].values                     # plot x values
     Y=[]
     Y_std=[]
-    for option in option_vec:
-        Y.append(df3['accuracy_mean_{}'.format(option)].values)
+    for method in learning_method_vec:
+        Y.append(df3['accuracy_mean_{}'.format(method)].values)
         if STD_FILL:
-            Y_std.append(df3['accuracy_std_{}'.format(option)].values)
+            Y_std.append(df3['accuracy_std_{}'.format(method)].values)
 
 
 
 
     if CREATE_PDF or SHOW_PDF or SHOW_PLOT:
-        print("Setting up figure")
+        print("Setting up figure...")
 
         # -- Setup figure
                    # remove 4 last characters ".txt"
@@ -718,7 +717,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         ylim(ymin, ymax)
 
         if CREATE_PDF:
-            print("in create")
+            print("saving PDF of figure...")
             savefig(join(figure_directory, fig_filename), format='pdf',
                     dpi=None,
                     edgecolor='w',
@@ -729,11 +728,11 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
                     frameon=None)
 
         if SHOW_PLOT:
-            print("in show plt")
+            print("Showing plot...")
             plt.show()
 
         if SHOW_PDF:
-            print("in showing")
+            print("Showing pdf...")
             showfig(join(figure_directory, fig_filename))  # shows actually created PDF
 
 def f_worker(X0, W, f, f_index, q):
@@ -834,16 +833,16 @@ def graph_worker(X, W, q):
 
     for w in f_workers:
         for t in exp_backoff:
-            if w.join(t) is None:
-                print("joining f worker {}".format(w))
-                continue
+            w.join(t)
+            if w.exitcode is None:
+                print("failed to join f worker {} after {} seconds, retrying".format(w, t))
             else:
-                print("failed to join f worker {} after {} seconds".format(w, t))
-        w.join()
+                continue
 
     fq.put('STOP2')
     for i in iter(fq.get, 'STOP2'):
         q.put(i)
 
 if __name__ == "__main__":
-    run(604, show_plot=True)
+    run(1001, create_data=False, show_plot=True)
+
