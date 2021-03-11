@@ -708,7 +708,6 @@ def matrix_convergence_percentage(X0, X1, threshold=0.9962, ignore_rows=list([])
         list of rows to ignore [list of explicit beliefs that are not evaluated]
     threshold : float (Default = 0.9962)
         threshold cosine similarity between rows in [n x k] arrays X and Y.
-            0.939692621: 20°, 0.965925826: 15°, 0.984808: 10°, 0.996194: 5°, 0.999391: 2°, 0.999848: 1°
         threshold l2 norm between rows
     similarity : what type of similarity function used, optional (Default='cosine_ratio')
         similarity='accuracy' : "In multilabel classification, this function computes subset accuracy:
