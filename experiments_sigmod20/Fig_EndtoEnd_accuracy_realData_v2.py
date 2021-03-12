@@ -104,6 +104,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     global lambda_vec
     global f_vec
     global H0c
+
     # -- Setup
     CHOICE = choice
     #300 Prop37, 400 MovieLens, 500 Yelp, 600 Flickr, 700 DBLP, 800 Enron
