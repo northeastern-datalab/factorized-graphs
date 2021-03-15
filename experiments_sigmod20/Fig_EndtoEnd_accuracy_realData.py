@@ -608,7 +608,14 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     # print("\n-- df1: (length {}):\n{}".format(len(df1.index), df1.head(5)))
 
     # Aggregate repetitions
-    df2 = df1.groupby(['method', 'f']).agg \
+    if "option" in df1.columns.values:
+        pivot_col = "option"
+        pivot_vec = option_vec
+    else:
+        pivot_col = "method"
+        pivot_vec = learning_method_vec
+
+    df2 = df1.groupby([pivot_col, 'f']).agg \
         ({'accuracy': [np.mean, np.std, np.size],  # Multiple Aggregates
           })
     df2.columns = ['_'.join(col).strip() for col in df2.columns.values]  # flatten the column hierarchy
@@ -617,7 +624,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     # print("\n-- df2 (length {}):\n{}".format(len(df2.index), df2.head(500)))
 
     # Pivot table
-    df3 = pd.pivot_table(df2, index='f', columns='method', values=['accuracy_mean', 'accuracy_std'] )  # Pivot
+    df3 = pd.pivot_table(df2, index='f', columns=pivot_col, values=['accuracy_mean', 'accuracy_std'] )  # Pivot
     # print("\n-- df3 (length {}):\n{}".format(len(df3.index), df3.head(30)))
     df3.columns = ['_'.join(col).strip() for col in df3.columns.values]  # flatten the column hierarchy
     df3.reset_index(inplace=True)  # remove the index hierarchy
@@ -628,10 +635,10 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     X_f = df3['f'].values                     # plot x values
     Y=[]
     Y_std=[]
-    for method in learning_method_vec:
-        Y.append(df3['accuracy_mean_{}'.format(method)].values)
+    for val in pivot_vec:
+        Y.append(df3['accuracy_mean_{}'.format(val)].values)
         if STD_FILL:
-            Y_std.append(df3['accuracy_std_{}'.format(method)].values)
+            Y_std.append(df3['accuracy_std_{}'.format(val)].values)
 
 
 
