@@ -177,7 +177,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
     legend_location = ""
     fig_label = ""
     global exp_backoff
-    exp_backoff = [2**n for n in range(2,9)]
+    exp_backoff = [2**n for n in range(6,12)]
 
 
     def choose(choice):
