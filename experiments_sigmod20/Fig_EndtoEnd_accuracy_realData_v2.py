@@ -495,49 +495,89 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
                 0.08], [0.08, 0.76, 0.08, 0.76],
                 [0.08, 0.08, 0.76, 0.08]])
         
-        # MASC Dataset
+        # -- Cora dataset
         elif choice == 901:
-            FILENAMEZ = 'masc'
-            Macro_Accuracy = False
-            fig_label = 'MASC'
-            legend_location = 'lower right'
-            n = 0
-            d = 0
-            ymin = 0
-            num_restarts = 100
-
-            select_lambda_vec = [False] * 4 + [True]  # allow to choose lambda for different f in f_vec
-            f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
-            lambda_vec = [1] * 11 + [10] * 10  # same length as f_vec       
-
-        # MASC collapsed Dataset
-        elif choice == 1001:
-            FILENAMEZ = 'masc-collapsed'
-            fig_label = 'MASC Collapsed'
-            legend_location = 'lower right'
-            n = 43724
-            d = 7.2
-            ymin = 0
-            num_restarts = 20
-            select_lambda_vec = [False] * 4 + [True]  # allow to choose lambda for different f in f_vec
-            f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
-            lambda_vec = [1] * 11 + [10] * 10  # same length as f_vec
-
-        elif choice == 1002:
-            choose(1001)
+            FILENAMEZ = 'cora'
             Macro_Accuracy = True
+            constraints = True                                                      # True
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5']
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE']
+            weight_vec = [None] * 3 + [10, 10]
 
-        # MASC Reduced dataset
-        elif choice == 1101:
-            FILENAMEZ = 'masc-reduced'
-            fig_label = 'MASC Reduced'
+            numMaxIt_vec = [10] * 10
+            randomize_vec = [False] * 4 + [True]
+            gradient = True
+            xmin = 0.001
+            ymin = 0.0
+            ymax = 0.9
+            labels = ['GT', 'LCE', 'MCE', 'DCE', 'DCE r']
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            draw_std_vec = [4]
+            linestyle_vec = ['dashed'] + ['solid'] * 10
+            linewidth_vec = [4, 4, 2, 1, 2]
+            marker_vec = [None, 'o', 'x', '^', 'v', '+']
+            markersize_vec = [0, 8, 8, 8, 8, 8, 8]
+            fig_label = 'Cora'
             legend_location = 'lower right'
-            n = 31000
-            d = 8.3
-            ymin = 0
-            select_lambda_vec = [False] * 4 + [True]  # allow to choose lambda for different f in f_vec
-            f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
-            lambda_vec = [1] * 11 + [10] * 10  # same length as f_vec
+            n = 2708
+            d = 7.8
+
+        
+        # -- Citeseer dataset
+        elif CHOICE == 1001:
+            FILENAMEZ = 'citeseer'
+            Macro_Accuracy = True
+            constraints = True                                                      # True
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5']
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE']
+            weight_vec = [None] * 3 + [10, 10]
+
+            numMaxIt_vec = [10] * 10
+            randomize_vec = [False] * 4 + [True]
+            gradient = True
+            xmin = 0.001
+            ymin = 0.0
+            ymax = 0.75
+            labels = ['GT', 'LCE', 'MCE', 'DCE', 'DCE r']
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            draw_std_vec = [4]
+            linestyle_vec = ['dashed'] + ['solid'] * 10
+            linewidth_vec = [4, 4, 2, 1, 2]
+            marker_vec = [None, 'o', 'x', '^', 'v', '+']
+            markersize_vec = [0, 8, 8, 8, 8, 8, 8]
+            fig_label = 'Citeseer'
+            legend_location = 'lower right'
+            n = 3312
+            d = 5.6
+
+
+
+
+        elif CHOICE == 1101:
+            FILENAMEZ = 'hep-th'
+            Macro_Accuracy = True
+            constraints = True                                                      # True
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5']
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE']
+            weight_vec = [None] * 3 + [10, 10]
+
+            numMaxIt_vec = [10] * 10
+            randomize_vec = [False] * 4 + [True]
+            gradient = True
+            xmin = 0.0001
+            ymin = 0.0
+            ymax = 0.1
+            labels = ['GT', 'LCE', 'MCE', 'DCE', 'DCE r']
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            draw_std_vec = [4]
+            linestyle_vec = ['dashed'] + ['solid'] * 10
+            linewidth_vec = [4, 4, 2, 1, 2]
+            marker_vec = [None, 'o', 'x', '^', 'v', '+']
+            markersize_vec = [0, 8, 8, 8, 8, 8, 8]
+            fig_label = 'Hep-th'
+            legend_location = 'lower right'
+            n = 27770
+            d = 5.6
 
         elif choice == 1102:
             choose(1101)
