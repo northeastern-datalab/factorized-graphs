@@ -383,13 +383,43 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
             d = 6.56  # for figure
 
         # -- Flickr dataset
+        #elif choice == 601:
+        #    FILENAMEZ = 'flickr'
+        #    Macro_Accuracy = True
+        #    fig_label = 'Flickr'
+        #    legend_location = 'lower right'
+        #    ymin = 0.3
+        #    ymax = 0.7
+        #    n = 2007369
+        #    d = 18.1
+
+
+        #elif choice == 602: ## with varying weights
+        #    choose(601)
+
+        #    select_lambda_vec = [False] * 4 + [True]*2  # allow to choose lambda for different f in f_vec
+        #    f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
+        #    lambda_vec = [1] * 11 + [10] * 10  # same length as f_vec
+
+
+        #elif choice == 603:     ## with varying weights
+        #    choose(602)
+
+        #    select_lambda_vec = [False] * 3 + [True] * 2  # allow to choose lambda for different f in f_vec
+        #    # lambda_vec = [1] * 5 + [5] * 5 + [10] * 5 + [1] * 6  # same length as f_vec
+
+
+        #elif choice == 604:     ## with weight = 1
+        #    choose(603)
+
+        #    lambda_vec = [0.5] * 21  # same length as f_vec
+
+        # -- Flickr dataset
         elif choice == 601:
             FILENAMEZ = 'flickr'
             Macro_Accuracy = True
             fig_label = 'Flickr'
             legend_location = 'lower right'
-            ymin = 0.3
-            ymax = 0.7
             n = 2007369
             d = 18.1
 
@@ -397,7 +427,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
         elif choice == 602: ## with varying weights
             choose(601)
 
-            select_lambda_vec = [False] * 4 + [True]*2  # allow to choose lambda for different f in f_vec
+            select_lambda_vec = [False] * 4 + [True]  # allow to choose lambda for different f in f_vec
             f_vec = [0.9 * pow(0.1, 1 / 5) ** x for x in range(21)]
             lambda_vec = [1] * 11 + [10] * 10  # same length as f_vec
 
@@ -410,6 +440,7 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
 
 
         elif choice == 604:     ## with weight = 1
+            draw_std_vec = [4]
             choose(603)
 
             lambda_vec = [0.5] * 21  # same length as f_vec
@@ -494,6 +525,41 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
             H_heuristic = np.array([[0.76, 0.08, 0.08, 0.08], [0.08, 0.08, 0.76,
                 0.08], [0.08, 0.76, 0.08, 0.76],
                 [0.08, 0.08, 0.76, 0.08]])
+
+        elif choice == 821:
+            FILENAMEZ = 'enron'
+            Macro_Accuracy = True
+            constraints = True  # True
+            gradient = True
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5']
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE']
+            weight_vec = [None] * 3 + [0.2, 0.2]
+
+            randomize_vec = [False] * 4 + [True]
+            xmin = 0.0001
+            ymin = 0.0
+            ymax = 0.7
+            labels = ['GS', 'LCE', 'MCE', 'DCE', 'DCE r']
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            draw_std_vec = [4]
+            linestyle_vec = ['dashed'] + ['solid'] * 10
+            linewidth_vec = [4, 4, 2, 1, 2]
+            marker_vec = [None, 'o', 'x', '^', 'v', '+']
+            markersize_vec = [0, 8, 8, 8, 8, 8, 8]
+            fig_label = 'Enron'
+            legend_location = 'lower right'
+            n = 46463  # for figures
+            d = 23.4  # for figures
+
+
+            alpha = 0.0
+            beta= 0.0
+            gamma = 0.0
+            s = 0.5
+            numMaxIt = 10
+
+            select_lambda_vec = [False] * 3 + [True] * 2
+            lambda_vec =  [0.2] * 13 + [10] * 8  # same length as f_vec
         
         # -- Cora dataset
         elif choice == 901:
@@ -584,6 +650,31 @@ def run(choice, create_data=False, add_data=False, show_plot=False, create_pdf=F
             Macro_Accuracy = True
 
 
+        elif CHOICE == 1204:
+            FILENAMEZ = 'pokec-gender'
+            Macro_Accuracy = True
+            constraints = True                                                      # True
+            option_vec = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5']
+            learning_method_vec = ['GT', 'LHE', 'MHE', 'DHE', 'DHE']
+            weight_vec = [None] * 3 + [10, 10]
+
+            numMaxIt_vec = [10] * 10
+            randomize_vec = [False] * 4 + [True]
+            gradient = True
+            xmin = 0.000015
+            ymin = 0.0
+            ymax = 0.75
+            labels = ['GT', 'LCE', 'MCE', 'DCE', 'DCE r']
+            facecolor_vec = ['black', "#55A868", "#4C72B0", "#8172B2", "#C44E52", "#CCB974", "#64B5CD"]
+            draw_std_vec = [0, 3, 4, 4, 4, 4]
+            linestyle_vec = ['dashed'] + ['solid'] * 10
+            linewidth_vec = [4, 4, 2, 1, 2]
+            marker_vec = [None, 'o', 'x', '^', 'v', '+']
+            markersize_vec = [0, 8, 8, 8, 8, 8, 8]
+            fig_label = 'Pokec-Gender'
+            legend_location = 'lower right'
+            n = 1632803
+            d = 54.6
 
         else:
             raise Warning("Incorrect choice!")
